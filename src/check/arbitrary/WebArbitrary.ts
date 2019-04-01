@@ -2,7 +2,7 @@ import { constant } from '../../fast-check-default';
 import { array } from './ArrayArbitrary';
 import { constantFrom } from './ConstantArbitrary';
 import { Arbitrary } from './definition/Arbitrary';
-import { buildAlphaNumericPercentArb } from './helpers/SpecificCharacterRange';
+import { buildAlphaNumericPercentArb, buildLowerAlphaNumericArb } from './helpers/SpecificCharacterRange';
 import { domain, hostUserInfo } from './HostArbitrary';
 import { nat } from './IntegerArbitrary';
 import { ipV4, ipV6 } from './IpArbitrary';
@@ -80,4 +80,17 @@ export function webUrl(constraints?: {
     c.withQueryParameters === true ? option(uriQueryOrFragment()) : constant(null),
     c.withFragments === true ? option(uriQueryOrFragment()) : constant(null)
   ).map(([s, a, p, q, f]) => `${s}://${a}${p}${q === null ? '' : `?${q}`}${f === null ? '' : `#${f}`}`);
+}
+
+// addr-spec       =   local-part "@" domain
+// local-part      =   dot-atom / quoted-string / obs-local-part
+// dot-atom        =   1*atext *("." 1*atext)
+// atext           =   ALPHA / DIGIT /
+export function emailAddress(constraints?: { domain?: Arbitrary<string> }) {
+  const c = constraints || {};
+  const others = ['!', '#', '$', '%', '&', "'", '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~'];
+  const atextArb = buildLowerAlphaNumericArb(others);
+  const dotAtomArb = array(stringOf(atextArb, 1, 10), 1, 5).map(a => a.join('.'));
+  const domainArb = c.domain || domain();
+  return tuple(dotAtomArb, domainArb).map(([lp, d]) => `${lp}@${d}`);
 }
