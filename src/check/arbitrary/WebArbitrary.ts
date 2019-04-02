@@ -12,7 +12,7 @@ import { stringOf } from './StringArbitrary';
 import { tuple } from './TupleArbitrary';
 
 export interface WebAuthorityConstraints {
-  /** Enforce a specific arbitrary to generate domains */
+  /** Enforce a specific arbitrary to generate domains. Default: {@see domain} */
   domain?: Arbitrary<string>;
   /** Enable IPv4 in host */
   withIPv4?: boolean;

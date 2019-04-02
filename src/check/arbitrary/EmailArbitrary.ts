@@ -5,6 +5,11 @@ import { domain } from './HostArbitrary';
 import { stringOf } from './StringArbitrary';
 import { tuple } from './TupleArbitrary';
 
+export interface EmailAddressConstraints {
+  /** Enforce a specific arbitrary to generate domains. Default: {@see domain} */
+  domain?: Arbitrary<string>;
+}
+
 /**
  * For email address
  *
@@ -12,7 +17,7 @@ import { tuple } from './TupleArbitrary';
  *
  * @param constraints
  */
-export function emailAddress(constraints?: { domain?: Arbitrary<string> }) {
+export function emailAddress(constraints?: EmailAddressConstraints) {
   const c = constraints || {};
   const others = ['!', '#', '$', '%', '&', "'", '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~'];
   const atextArb = buildLowerAlphaNumericArb(others);

@@ -16,11 +16,11 @@ import { dedup } from './check/arbitrary/DedupArbitrary';
 import { Arbitrary } from './check/arbitrary/definition/Arbitrary';
 import { Shrinkable } from './check/arbitrary/definition/Shrinkable';
 import { dictionary } from './check/arbitrary/DictionaryArbitrary';
-import { emailAddress } from './check/arbitrary/EmailArbitrary';
+import { emailAddress, EmailAddressConstraints } from './check/arbitrary/EmailArbitrary';
 import { double, float } from './check/arbitrary/FloatingPointArbitrary';
 import { frequency } from './check/arbitrary/FrequencyArbitrary';
 import { compareBooleanFunc, compareFunc, func } from './check/arbitrary/FunctionArbitrary';
-import { domain, externalDomain, subdomain } from './check/arbitrary/HostArbitrary';
+import { anyDomain, domain, subdomain } from './check/arbitrary/HostArbitrary';
 import { integer, maxSafeInteger, maxSafeNat, nat } from './check/arbitrary/IntegerArbitrary';
 import { ipV4, ipV6 } from './check/arbitrary/IpArbitrary';
 import { lorem } from './check/arbitrary/LoremArbitrary';
@@ -51,6 +51,13 @@ import {
 } from './check/arbitrary/StringArbitrary';
 import { shuffledSubarray, subarray } from './check/arbitrary/SubarrayArbitrary';
 import { genericTuple, tuple } from './check/arbitrary/TupleArbitrary';
+import {
+  webAuthority,
+  WebAuthorityConstraints,
+  webSegment,
+  webUrl,
+  WebUrlConstraints
+} from './check/arbitrary/WebArbitrary';
 
 import { AsyncCommand } from './check/model/command/AsyncCommand';
 import { Command } from './check/model/command/Command';
@@ -113,12 +120,6 @@ export {
   hexaString,
   base64String,
   lorem,
-  ipV4,
-  ipV6,
-  domain,
-  subdomain,
-  externalDomain,
-  emailAddress,
   constant,
   constantFrom,
   clonedConstant,
@@ -146,6 +147,16 @@ export {
   compareFunc,
   func,
   context,
+  // web
+  ipV4,
+  ipV6,
+  anyDomain,
+  subdomain,
+  domain,
+  emailAddress,
+  webAuthority,
+  webSegment,
+  webUrl,
   // model-based
   AsyncCommand,
   Command,
@@ -164,6 +175,9 @@ export {
   ObjectConstraints,
   Parameters,
   RecordConstraints,
+  EmailAddressConstraints,
+  WebAuthorityConstraints,
+  WebUrlConstraints,
   RunDetails,
   Random,
   Stream,

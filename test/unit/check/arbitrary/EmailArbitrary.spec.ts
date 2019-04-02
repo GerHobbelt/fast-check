@@ -1,4 +1,4 @@
-import { externalDomain } from '../../../../src/check/arbitrary/HostArbitrary';
+import { anyDomain } from '../../../../src/check/arbitrary/HostArbitrary';
 import { emailAddress } from '../../../../src/check/arbitrary/EmailArbitrary';
 
 import * as genericHelper from './generic/GenericArbitraryHelper';
@@ -23,8 +23,13 @@ describe('EmailArbitrary', () => {
       });
     });
     describe('RFC 5322', () => {
-      genericHelper.isValidArbitrary(() => emailAddress({ domain: externalDomain() }), {
+      genericHelper.isValidArbitrary(() => emailAddress(), {
         isValidValue: (g: string) => isValidEmailRfc5322(g)
+      });
+    });
+    describe('RFC 1123 with full domain support', () => {
+      genericHelper.isValidArbitrary(() => emailAddress({ domain: anyDomain() }), {
+        isValidValue: (g: string) => isValidEmailRfc1123(g)
       });
     });
   });

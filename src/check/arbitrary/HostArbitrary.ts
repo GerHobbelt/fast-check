@@ -13,7 +13,9 @@ import { tuple } from './TupleArbitrary';
 /**
  * For subdomains
  *
- * According to RFC 1034 - https://www.ietf.org/rfc/rfc1034.txt
+ * According to RFC 1034 and RFC 1123
+ * - https://www.ietf.org/rfc/rfc1034.txt
+ * - https://www.ietf.org/rfc/rfc1123.txt
  */
 export function subdomain() {
   const alphaNumericArb = buildLowerAlphaNumericArb([]);
@@ -26,13 +28,15 @@ export function subdomain() {
 /**
  * For domains
  *
- * According to RFC 1034 - https://www.ietf.org/rfc/rfc1034.txt
+ * According to RFC 1034 and RFC 1123
+ * - https://www.ietf.org/rfc/rfc1034.txt
+ * - https://www.ietf.org/rfc/rfc1123.txt
  *
  * @param constraints Optional customizations of the domain
  * @param constraints.prefix Enforce a specific arbitrary to generate the first subdomain, eg.: www.
  * @param constraints.suffix Enforce a specific arbitrary to generate the last subdomain, eg.: .com
  */
-export function domain(constraints?: { suffix?: Arbitrary<string>; prefix?: Arbitrary<string> }) {
+export function anyDomain(constraints?: { suffix?: Arbitrary<string>; prefix?: Arbitrary<string> }) {
   const prefixesArb =
     constraints !== undefined && constraints.prefix !== undefined ? constraints.prefix.map(p => [p]) : constant([]);
   const suffixesArb =
@@ -43,13 +47,16 @@ export function domain(constraints?: { suffix?: Arbitrary<string>; prefix?: Arbi
 }
 
 /**
- * For domains having an extension with at least two characters
+ * For domains
+ * having an extension with at least two lowercase characters
  *
- * According to RFC 1034 - https://www.ietf.org/rfc/rfc1034.txt
+ * According to RFC 1034 and RFC 1123
+ * - https://www.ietf.org/rfc/rfc1034.txt
+ * - https://www.ietf.org/rfc/rfc1123.txt
  */
-export function externalDomain() {
+export function domain() {
   const alphaNumericArb = buildLowerAlphaArb([]);
-  return domain({ suffix: stringOf(alphaNumericArb, 2, 10) });
+  return anyDomain({ suffix: stringOf(alphaNumericArb, 2, 10) });
 }
 
 /**
