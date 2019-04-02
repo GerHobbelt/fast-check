@@ -18,6 +18,10 @@ const percentCharArb = fullUnicode().map(c => {
 });
 
 /** @hidden */
+export const buildLowerAlphaArb = (others: string[]) =>
+  mapToConstant(lowerCaseMapper, { num: others.length, build: v => others[v] });
+
+/** @hidden */
 export const buildLowerAlphaNumericArb = (others: string[]) =>
   mapToConstant(lowerCaseMapper, numericMapper, { num: others.length, build: v => others[v] });
 

@@ -1,13 +1,19 @@
-import { constant } from '../../fast-check-default';
 import { array } from './ArrayArbitrary';
+import { constant } from './ConstantArbitrary';
 import { Arbitrary } from './definition/Arbitrary';
-import { buildAlphaNumericPercentArb, buildLowerAlphaNumericArb } from './helpers/SpecificCharacterRange';
+import {
+  buildAlphaNumericPercentArb,
+  buildLowerAlphaArb,
+  buildLowerAlphaNumericArb
+} from './helpers/SpecificCharacterRange';
 import { option } from './OptionArbitrary';
 import { stringOf } from './StringArbitrary';
 import { tuple } from './TupleArbitrary';
 
 /**
  * For subdomains
+ *
+ * According to RFC 1034 - https://www.ietf.org/rfc/rfc1034.txt
  */
 export function subdomain() {
   const alphaNumericArb = buildLowerAlphaNumericArb([]);
@@ -19,6 +25,9 @@ export function subdomain() {
 
 /**
  * For domains
+ *
+ * According to RFC 1034 - https://www.ietf.org/rfc/rfc1034.txt
+ *
  * @param constraints Optional customizations of the domain
  * @param constraints.prefix Enforce a specific arbitrary to generate the first subdomain, eg.: www.
  * @param constraints.suffix Enforce a specific arbitrary to generate the last subdomain, eg.: .com
@@ -31,6 +40,16 @@ export function domain(constraints?: { suffix?: Arbitrary<string>; prefix?: Arbi
   return tuple(prefixesArb, array(subdomain(), 1, 5), suffixesArb)
     .map(([p, mid, s]) => [...p, ...mid, ...s].join('.'))
     .filter(d => d.length <= 255);
+}
+
+/**
+ * For domains having an extension with at least two characters
+ *
+ * According to RFC 1034 - https://www.ietf.org/rfc/rfc1034.txt
+ */
+export function externalDomain() {
+  const alphaNumericArb = buildLowerAlphaArb([]);
+  return domain({ suffix: stringOf(alphaNumericArb, 2, 10) });
 }
 
 /**

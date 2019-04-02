@@ -16,9 +16,11 @@ import { dedup } from './check/arbitrary/DedupArbitrary';
 import { Arbitrary } from './check/arbitrary/definition/Arbitrary';
 import { Shrinkable } from './check/arbitrary/definition/Shrinkable';
 import { dictionary } from './check/arbitrary/DictionaryArbitrary';
+import { emailAddress } from './check/arbitrary/EmailArbitrary';
 import { double, float } from './check/arbitrary/FloatingPointArbitrary';
 import { frequency } from './check/arbitrary/FrequencyArbitrary';
 import { compareBooleanFunc, compareFunc, func } from './check/arbitrary/FunctionArbitrary';
+import { domain, externalDomain, subdomain } from './check/arbitrary/HostArbitrary';
 import { integer, maxSafeInteger, maxSafeNat, nat } from './check/arbitrary/IntegerArbitrary';
 import { ipV4, ipV6 } from './check/arbitrary/IpArbitrary';
 import { lorem } from './check/arbitrary/LoremArbitrary';
@@ -113,6 +115,10 @@ export {
   lorem,
   ipV4,
   ipV6,
+  domain,
+  subdomain,
+  externalDomain,
+  emailAddress,
   constant,
   constantFrom,
   clonedConstant,
