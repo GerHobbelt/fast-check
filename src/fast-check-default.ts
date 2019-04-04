@@ -54,6 +54,8 @@ import { genericTuple, tuple } from './check/arbitrary/TupleArbitrary';
 import {
   webAuthority,
   WebAuthorityConstraints,
+  webFragments,
+  webQueryParameters,
   webSegment,
   webUrl,
   WebUrlConstraints
@@ -156,6 +158,8 @@ export {
   emailAddress,
   webAuthority,
   webSegment,
+  webFragments,
+  webQueryParameters,
   webUrl,
   // model-based
   AsyncCommand,

@@ -66,6 +66,28 @@ function uriQueryOrFragment() {
   return stringOf(buildAlphaNumericPercentArb(others));
 }
 
+/**
+ * For query parameters of an URI (web included)
+ *
+ * According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt
+ *
+ * eg.: In the url `https://domain/plop/?hello=1&world=2`, `?hello=1&world=2` are query parameters
+ */
+export function webQueryParameters() {
+  return uriQueryOrFragment();
+}
+
+/**
+ * For query parameters of an URI (web included)
+ *
+ * According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt
+ *
+ * eg.: In the url `https://domain/plop?page=1#hello=1&world=2`, `?hello=1&world=2` are query parameters
+ */
+export function webFragments() {
+  return uriQueryOrFragment();
+}
+
 export interface WebUrlConstraints {
   /** Enforce specific schemes, eg.: http, https */
   validSchemes?: string[];
