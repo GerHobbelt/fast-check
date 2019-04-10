@@ -20,7 +20,7 @@ import { emailAddress, EmailAddressConstraints } from './check/arbitrary/EmailAr
 import { double, float } from './check/arbitrary/FloatingPointArbitrary';
 import { frequency } from './check/arbitrary/FrequencyArbitrary';
 import { compareBooleanFunc, compareFunc, func } from './check/arbitrary/FunctionArbitrary';
-import { anyDomain, domain, subdomain } from './check/arbitrary/HostArbitrary';
+import { domain, subdomain } from './check/arbitrary/HostArbitrary';
 import { integer, maxSafeInteger, maxSafeNat, nat } from './check/arbitrary/IntegerArbitrary';
 import { ipV4, ipV6 } from './check/arbitrary/IpArbitrary';
 import { lorem } from './check/arbitrary/LoremArbitrary';
@@ -152,7 +152,6 @@ export {
   // web
   ipV4,
   ipV6,
-  anyDomain,
   subdomain,
   domain,
   emailAddress,

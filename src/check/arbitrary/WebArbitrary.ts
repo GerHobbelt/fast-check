@@ -102,7 +102,9 @@ export interface WebUrlConstraints {
 /**
  * For web url
  *
- * According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt
+ * According to RFC 3986 and WHATWG URL Standard
+ * - https://www.ietf.org/rfc/rfc3986.txt
+ * - https://url.spec.whatwg.org/
  *
  * @param constraints
  */

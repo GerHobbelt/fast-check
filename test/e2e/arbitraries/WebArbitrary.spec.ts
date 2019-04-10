@@ -5,10 +5,7 @@ const seed = Date.now();
 describe(`WebArbitrary (seed: ${seed})`, () => {
   it('Should produce valid domains', () => {
     fc.assert(
-      fc.property(fc.anyDomain(), domain => {
-        // Integer like domains have a special behaviour:
-        // http://8 is equivalent to http://0.0.0.8
-        fc.pre(Number.isNaN(parseInt(domain, 10)));
+      fc.property(fc.domain(), domain => {
         const p = `http://user:pass@${domain}/path/?query#fragment`;
         const u = new URL(p);
         expect(u.hostname).toEqual(domain);
@@ -38,7 +35,7 @@ describe(`WebArbitrary (seed: ${seed})`, () => {
   it('Should produce valid URL parts', () => {
     fc.assert(
       fc.property(
-        fc.webAuthority({ domain: fc.anyDomain(), withIPv4: true, withIPv6: true, withUserInfo: true, withPort: true }),
+        fc.webAuthority({ domain: fc.domain(), withIPv4: true, withIPv6: true, withUserInfo: true, withPort: true }),
         fc.array(fc.webSegment()).map(p => p.map(v => `/${v}`).join('')),
         fc.webQueryParameters(),
         fc.webFragments(),
@@ -57,7 +54,6 @@ describe(`WebArbitrary (seed: ${seed})`, () => {
             const sanitizedPath = dotSanitizedPath
               .replace(/\/\.\/(\.\/)*/g, '/') // replace /./, /././, etc.. by /
               .replace(/\/\.$/, '/'); // replace trailing /. by / if any
-            //.replace(/\/+/g, '/'); // collapse multiple consecutive slashes into a single one
             expect(u.pathname).toEqual(sanitizedPath === '' ? '/' : sanitizedPath);
           }
         }
